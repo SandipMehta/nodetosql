@@ -18,14 +18,21 @@ var server = app.listen(8081, function () {
     console.log("app listening at http://%s:%s", host, port)
 });
 
-app.get('/db/:query/', function (req, res) {
+app.get('/db/:query/:query2?', function (req, res) {
 console.log(req.originalUrl);
 
 new sql.ConnectionPool(sqlConfig).connect().then(pool => {
-
-    console.log(req.params.query);
-
-    return pool.request().query('select * from ' + req.params.query)
+    var sqry;
+    
+    if (!req.params.query2)
+    {
+        sqry = 'select * from ' + req.params.query;
+    }
+    else {
+        sqry = 'select * from ' + req.params.query + ' where ' + req.params.query2;
+    }
+    console.log(sqry);
+    return pool.request().query(sqry)
     }).then(result => {
       let rows = result.recordset
       res.setHeader('Access-Control-Allow-Origin', '*')
