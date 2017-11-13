@@ -1,5 +1,8 @@
 # nodetosql
 Connect SQL using node script
+
+To Install dependencies : npm install
+
 To execute it : node main
 
 Example Calls :
